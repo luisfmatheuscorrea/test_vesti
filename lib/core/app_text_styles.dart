@@ -45,6 +45,12 @@ class AppTextStyles {
     fontWeight: FontWeight.w900,
   );
 
+  static final TextStyle titleSettings = GoogleFonts.lato(
+    color: AppColors.black,
+    fontSize: 22,
+    fontWeight: FontWeight.w900,
+  );
+
   static final TextStyle nameCharacteristics = GoogleFonts.lato(
     color: AppColors.greyDarkText,
     fontSize: 16,

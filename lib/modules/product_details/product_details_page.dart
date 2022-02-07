@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 
 import 'package:test_zummedy/components/button_widget/button_widget.dart';
@@ -18,23 +19,33 @@ class ProductDetailsPage extends StatefulWidget {
   const ProductDetailsPage({
     Key? key,
     required this.product,
-    required this.controller,
-    required this.cartController,
   }) : super(key: key);
 
   final Product product;
-  final ProductController controller;
-  final CartController cartController;
 
   @override
   _ProductDetailsPageState createState() => _ProductDetailsPageState();
 }
 
 class _ProductDetailsPageState extends State<ProductDetailsPage> {
+  final controller = GetIt.I.get<ProductController>();
+  final cartController = GetIt.I.get<CartController>();
+
   @override
   void initState() {
-    widget.controller.selectProduct(widget.product.id);
+    controller.selectProduct(widget.product.id);
     super.initState();
+  }
+
+  int productInCart() {
+    int indexInCart = cartController.cartProducts.indexWhere(
+        (cartProduct) => cartProduct.product.id == widget.product.id);
+
+    if (indexInCart != -1) {
+      return indexInCart;
+    }
+
+    return -1;
   }
 
   @override
@@ -132,7 +143,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                    'Color:',
+                                    'Cor:',
                                     style: AppTextStyles.nameCharacteristics,
                                   ),
                                   ColorSelectWidget(
@@ -146,7 +157,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Description:',
+                            'Descrição:',
                             style: AppTextStyles.nameCharacteristics,
                           ),
                           SizedBox(
@@ -172,7 +183,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              'Price:',
+                              'Preço:',
                               style: AppTextStyles.nameCharacteristics,
                             ),
                             Text(
@@ -184,7 +195,37 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                           ],
                         ),
                       ),
-                      const ButtonWidget(),
+                      Observer(
+                        builder: (context) => ButtonWidget(
+                          text: 'Adicionar',
+                          onTap: () {
+                            cartController.changeAmount(
+                              Amount.add,
+                              widget.product,
+                            );
+                          },
+                          amount: productInCart() != -1
+                              ? cartController
+                                  .cartProducts[productInCart()].amount
+                              : null,
+                          onAdd: productInCart() != -1
+                              ? () {
+                                  cartController.changeAmount(
+                                    Amount.add,
+                                    widget.product,
+                                  );
+                                }
+                              : null,
+                          onRemove: productInCart() != -1
+                              ? () {
+                                  cartController.changeAmount(
+                                    Amount.remove,
+                                    widget.product,
+                                  );
+                                }
+                              : null,
+                        ),
+                      ),
                     ],
                   ),
                 ),

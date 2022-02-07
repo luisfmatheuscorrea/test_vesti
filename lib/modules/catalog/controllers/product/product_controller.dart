@@ -11,7 +11,7 @@ class ProductController = _ProductControllerBase with _$ProductController;
 
 abstract class _ProductControllerBase with Store {
   @observable
-  List<Product> products = [];
+  ObservableList<Product> products = ObservableList.of([]);
 
   @observable
   Product? selectedProduct;
@@ -26,10 +26,10 @@ abstract class _ProductControllerBase with Store {
     state = ProductState.initial;
     ProductRepository().getByCategory(category).then((resp) {
       if (resp.isNotEmpty) {
-        products = resp;
+        products = ObservableList.of(resp);
         state = ProductState.success;
       } else {
-        products = resp;
+        products = ObservableList.of(resp);
         state = ProductState.empty;
       }
       // ignore: argument_type_not_assignable_to_error_handler
@@ -43,10 +43,10 @@ abstract class _ProductControllerBase with Store {
     state = ProductState.initial;
     ProductRepository().getAllProducts().then((resp) {
       if (resp.isNotEmpty) {
-        products = resp;
+        products = ObservableList.of(resp);
         state = ProductState.success;
       } else {
-        products = resp;
+        products = ObservableList.of(resp);
         state = ProductState.empty;
       }
       // ignore: argument_type_not_assignable_to_error_handler

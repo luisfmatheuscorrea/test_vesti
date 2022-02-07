@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:test_zummedy/components/card_product/card_product_widget.dart';
 import 'package:test_zummedy/core/app_colors.dart';
@@ -14,11 +15,9 @@ class CatalogPage extends StatefulWidget {
   const CatalogPage({
     Key? key,
     required this.pageController,
-    required this.cartController,
   }) : super(key: key);
 
   final PageController pageController;
-  final CartController cartController;
 
   @override
   _CatalogPageState createState() => _CatalogPageState();
@@ -26,8 +25,8 @@ class CatalogPage extends StatefulWidget {
 
 class _CatalogPageState extends State<CatalogPage>
     with SingleTickerProviderStateMixin {
-  CategoryController categoryController = CategoryController();
-  ProductController productController = ProductController();
+  final categoryController = GetIt.I.get<CategoryController>();
+  final productController = GetIt.I.get<ProductController>();
   late TabController tabController;
 
   @override
@@ -121,15 +120,12 @@ class _CatalogPageState extends State<CatalogPage>
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * 0.74,
                   child: TabBarView(
+                    physics: const NeverScrollableScrollPhysics(),
                     controller: tabController,
                     children: List.generate(
                       categoryController.categories.length + 1,
                       (index) {
-                        return GridProducts(
-                          productController: productController,
-                          categoryController: categoryController,
-                          cartController: widget.cartController,
-                        );
+                        return const GridProducts();
                       },
                     ),
                   ),

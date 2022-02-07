@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:test_zummedy/core/app_colors.dart';
 import 'package:test_zummedy/core/app_text_styles.dart';
@@ -8,16 +9,15 @@ import 'package:test_zummedy/modules/cart/controllers/cart/cart_controller.dart'
 class NavigationBar extends StatefulWidget {
   const NavigationBar({
     Key? key,
-    required this.controller,
   }) : super(key: key);
-
-  final CartController controller;
 
   @override
   _NavigationBarState createState() => _NavigationBarState();
 }
 
 class _NavigationBarState extends State<NavigationBar> {
+  final controller = GetIt.I.get<CartController>();
+
   @override
   Widget build(BuildContext context) {
     double deviceWidth = MediaQuery.of(context).size.width;
@@ -65,11 +65,11 @@ class _NavigationBarState extends State<NavigationBar> {
                     'assets/images/icons/shopping-bag.png',
                   ),
                 ),
-                Positioned(
-                  top: -10,
-                  child: Observer(
-                    builder: (context) => AnimatedOpacity(
-                      opacity: widget.controller.cartProducts.isEmpty ? 0 : 1,
+                Observer(
+                  builder: (context) => Positioned(
+                    top: -10,
+                    child: AnimatedOpacity(
+                      opacity: controller.cartProducts.isEmpty ? 0 : 1,
                       duration: const Duration(milliseconds: 400),
                       child: Container(
                         width: deviceWidth * 0.052,
@@ -88,7 +88,7 @@ class _NavigationBarState extends State<NavigationBar> {
                           color: AppColors.primary,
                         ),
                         child: Text(
-                          widget.controller.cartProducts.length.toString(),
+                          controller.cartProducts.length.toString(),
                           style: AppTextStyles.cartCounter,
                         ),
                       ),

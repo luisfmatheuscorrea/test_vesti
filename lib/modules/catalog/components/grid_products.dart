@@ -1,46 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:test_zummedy/components/card_product/card_product_widget.dart';
 import 'package:test_zummedy/core/app_text_styles.dart';
-import 'package:test_zummedy/modules/cart/controllers/cart/cart_controller.dart';
 import 'package:test_zummedy/modules/catalog/controllers/category/category_controller.dart';
 import 'package:test_zummedy/modules/catalog/controllers/product/product_controller.dart';
 
 class GridProducts extends StatefulWidget {
   const GridProducts({
     Key? key,
-    required this.productController,
-    required this.categoryController,
-    required this.cartController,
   }) : super(key: key);
-
-  final ProductController productController;
-  final CategoryController categoryController;
-  final CartController cartController;
 
   @override
   _GridProductsState createState() => _GridProductsState();
 }
 
 class _GridProductsState extends State<GridProducts> {
+  final productController = GetIt.I.get<ProductController>();
+  final categoryController = GetIt.I.get<CategoryController>();
+
   @override
   Widget build(BuildContext context) {
     return Observer(builder: (context) {
-      if (widget.productController.state == ProductState.success) {
+      if (productController.state == ProductState.success) {
         return GridView.count(
           crossAxisCount: 2,
           childAspectRatio: 0.81,
           children: List.generate(
-            widget.productController.products.length,
+            productController.products.length,
             (index) => CardProductWidget(
-              product: widget.productController.products[index],
-              controller: widget.productController,
-              cartController: widget.cartController,
+              product: productController.products[index],
             ),
           ),
         );
-      } else if (widget.productController.state == ProductState.empty) {
+      } else if (productController.state == ProductState.empty) {
         return Expanded(
           child: Center(
             child: Text(
@@ -49,7 +43,7 @@ class _GridProductsState extends State<GridProducts> {
             ),
           ),
         );
-      } else if (widget.productController.state == ProductState.fail) {
+      } else if (productController.state == ProductState.fail) {
         return Expanded(
           child: Center(
             child: Text(

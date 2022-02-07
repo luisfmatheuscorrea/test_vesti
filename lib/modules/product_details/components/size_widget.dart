@@ -35,7 +35,7 @@ class _SizeWidgetState extends State<SizeWidget> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Size (US):',
+            'Tamanho (US):',
             style: AppTextStyles.nameCharacteristics,
           ),
           Observer(

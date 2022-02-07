@@ -10,7 +10,7 @@ enum Amount { add, remove }
 
 abstract class _CartControllerBase with Store {
   @observable
-  List<CartProduct> cartProducts = [];
+  ObservableList<CartProduct> cartProducts = ObservableList.of([]);
 
   // _CartControllerBase({}) {}
 
@@ -34,21 +34,30 @@ abstract class _CartControllerBase with Store {
   @action
   changeAmount(Amount amount, Product product) {
     if (amount == Amount.add) {
-      CartProduct cartProduct = cartProducts
-          .firstWhere((cartProduct) => cartProduct.product.id == product.id);
-      cartProducts
-          .removeWhere((cartProduct) => cartProduct.product.id == product.id);
+      int indexCartProduct = cartProducts
+          .indexWhere((cartProduct) => cartProduct.product.id == product.id);
 
-      cartProducts.add(CartProduct(
-          product: cartProduct.product, amount: cartProduct.amount + 1));
+      if (indexCartProduct != -1) {
+        CartProduct cartProduct = cartProducts
+            .firstWhere((cartProduct) => cartProduct.product.id == product.id);
+        cartProducts
+            .removeWhere((cartProduct) => cartProduct.product.id == product.id);
+
+        cartProducts.add(CartProduct(
+            product: cartProduct.product, amount: cartProduct.amount + 1));
+      } else {
+        addProduct(product);
+      }
     } else {
       CartProduct cartProduct = cartProducts
           .firstWhere((cartProduct) => cartProduct.product.id == product.id);
       cartProducts
           .removeWhere((cartProduct) => cartProduct.product.id == product.id);
 
-      cartProducts.add(CartProduct(
-          product: cartProduct.product, amount: cartProduct.amount - 1));
+      if (cartProduct.amount > 1) {
+        cartProducts.add(CartProduct(
+            product: cartProduct.product, amount: cartProduct.amount - 1));
+      }
     }
   }
 }

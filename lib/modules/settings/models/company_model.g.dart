@@ -6,10 +6,10 @@ part of 'company_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Campany _$CampanyFromJson(Map<String, dynamic> json) => Campany(
+Company _$CompanyFromJson(Map<String, dynamic> json) => Company(
       name: json['name'] as String,
     );
 
-Map<String, dynamic> _$CampanyToJson(Campany instance) => <String, dynamic>{
+Map<String, dynamic> _$CompanyToJson(Company instance) => <String, dynamic>{
       'name': instance.name,
     };

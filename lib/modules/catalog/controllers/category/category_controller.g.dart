@@ -12,13 +12,13 @@ mixin _$CategoryController on _CategoryControllerBase, Store {
   final _$categoriesAtom = Atom(name: '_CategoryControllerBase.categories');
 
   @override
-  List<Category> get categories {
+  ObservableList<Category> get categories {
     _$categoriesAtom.reportRead();
     return super.categories;
   }
 
   @override
-  set categories(List<Category> value) {
+  set categories(ObservableList<Category> value) {
     _$categoriesAtom.reportWrite(value, super.categories, () {
       super.categories = value;
     });

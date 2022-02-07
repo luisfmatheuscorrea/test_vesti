@@ -10,7 +10,7 @@ class CategoryController = _CategoryControllerBase with _$CategoryController;
 
 abstract class _CategoryControllerBase with Store {
   @observable
-  List<Category> categories = [];
+  ObservableList<Category> categories = ObservableList.of([]);
 
   @observable
   CategoryState state = CategoryState.initial;
@@ -31,10 +31,10 @@ abstract class _CategoryControllerBase with Store {
   getAllCategories() async {
     CategoryRepository().getAllCategories().then((resp) {
       if (resp.isNotEmpty) {
-        categories = resp;
+        categories = ObservableList.of(resp);
         state = CategoryState.success;
       } else {
-        categories = resp;
+        categories = ObservableList.of(resp);
         state = CategoryState.empty;
       }
       // ignore: argument_type_not_assignable_to_error_handler

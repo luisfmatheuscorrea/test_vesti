@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:test_zummedy/app_widget.dart';
 import 'package:test_zummedy/core/app_colors.dart';
 import 'package:test_zummedy/core/app_text_styles.dart';
+import 'package:test_zummedy/modules/settings/controllers/company/company_controller.dart';
 
 class Splash extends StatefulWidget {
   @override
@@ -11,10 +13,18 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
+  final controller = GetIt.I.get<CompanyController>();
+
+  @override
+  void initState() {
+    controller.getCompany();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(milliseconds: 2000))
-        .then((_) => goToApp(context));
+        .then((_) => goTo(context));
     return Scaffold(
       backgroundColor: AppColors.white,
       body: Container(
@@ -29,7 +39,7 @@ class _SplashState extends State<Splash> {
     );
   }
 
-  void goToApp(context) {
+  void goTo(context) async {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => const AppWidget()),

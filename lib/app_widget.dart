@@ -5,6 +5,8 @@ import 'package:test_zummedy/core/app_colors.dart';
 import 'package:test_zummedy/core/app_text_styles.dart';
 import 'package:test_zummedy/modules/cart/controllers/cart/cart_controller.dart';
 import 'package:test_zummedy/modules/catalog/catalog_page.dart';
+import 'package:test_zummedy/modules/settings/controllers/company/company_controller.dart';
+import 'package:test_zummedy/modules/settings/company_settings_page.dart';
 
 class AppWidget extends StatefulWidget {
   const AppWidget({Key? key}) : super(key: key);
@@ -21,6 +23,7 @@ class _AppWidgetState extends State<AppWidget> {
   final List<Widget> _telas = [];
 
   final cartController = GetIt.I.get<CartController>();
+  final companyController = GetIt.I.get<CompanyController>();
 
   @override
   void initState() {
@@ -45,12 +48,19 @@ class _AppWidgetState extends State<AppWidget> {
           elevation: 0,
           centerTitle: true,
           title: Text(
-            'Zummedy',
+            companyController.company!.name,
             style: AppTextStyles.zummedyText,
           ),
           actions: [
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CompanySettingsPage(),
+                  ),
+                );
+              },
               color: AppColors.unselectedTitle,
               icon: const ImageIcon(
                 AssetImage('assets/images/icons/settings.png'),
@@ -63,9 +73,7 @@ class _AppWidgetState extends State<AppWidget> {
           controller: _pageController,
           children: _telas,
         ),
-        bottomNavigationBar: NavigationBar(
-          controller: cartController,
-        ),
+        bottomNavigationBar: const NavigationBar(),
       ),
     );
   }
@@ -74,7 +82,6 @@ class _AppWidgetState extends State<AppWidget> {
     _telas.addAll([
       CatalogPage(
         pageController: _pageController,
-        cartController: cartController,
       ),
     ]);
   }

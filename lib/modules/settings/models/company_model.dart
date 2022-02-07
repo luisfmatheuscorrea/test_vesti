@@ -3,15 +3,15 @@ import 'package:json_annotation/json_annotation.dart';
 part 'company_model.g.dart';
 
 @JsonSerializable()
-class Campany {
+class Company {
   final String name;
 
-  Campany({
+  Company({
     required this.name,
   });
 
-  factory Campany.fromJson(Map<String, dynamic> json) =>
-      _$CampanyFromJson(json);
+  factory Company.fromJson(Map<String, dynamic> json) =>
+      _$CompanyFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CampanyToJson(this);
+  Map<String, dynamic> toJson() => _$CompanyToJson(this);
 }

@@ -12,13 +12,13 @@ mixin _$CartController on _CartControllerBase, Store {
   final _$cartProductsAtom = Atom(name: '_CartControllerBase.cartProducts');
 
   @override
-  List<CartProduct> get cartProducts {
+  ObservableList<CartProduct> get cartProducts {
     _$cartProductsAtom.reportRead();
     return super.cartProducts;
   }
 
   @override
-  set cartProducts(List<CartProduct> value) {
+  set cartProducts(ObservableList<CartProduct> value) {
     _$cartProductsAtom.reportWrite(value, super.cartProducts, () {
       super.cartProducts = value;
     });
