@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+
 import 'package:test_zummedy/core/app_colors.dart';
 import 'package:test_zummedy/core/app_text_styles.dart';
+import 'package:test_zummedy/modules/cart/controllers/cart/cart_controller.dart';
 
 class NavigationBar extends StatefulWidget {
-  const NavigationBar({Key? key}) : super(key: key);
+  const NavigationBar({
+    Key? key,
+    required this.controller,
+  }) : super(key: key);
+
+  final CartController controller;
 
   @override
   _NavigationBarState createState() => _NavigationBarState();
@@ -60,25 +67,31 @@ class _NavigationBarState extends State<NavigationBar> {
                 ),
                 Positioned(
                   top: -10,
-                  child: Container(
-                    width: deviceWidth * 0.052,
-                    height: deviceWidth * 0.052,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7),
-                      boxShadow: [
-                        BoxShadow(
-                          offset: const Offset(0, 0),
-                          color: AppColors.primary.withOpacity(0.3),
-                          spreadRadius: 2,
-                          blurRadius: 15,
-                        )
-                      ],
-                      color: AppColors.primary,
-                    ),
-                    child: Text(
-                      '01',
-                      style: AppTextStyles.cartCounter,
+                  child: Observer(
+                    builder: (context) => AnimatedOpacity(
+                      opacity: widget.controller.cartProducts.isEmpty ? 0 : 1,
+                      duration: const Duration(milliseconds: 400),
+                      child: Container(
+                        width: deviceWidth * 0.052,
+                        height: deviceWidth * 0.052,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(7),
+                          boxShadow: [
+                            BoxShadow(
+                              offset: const Offset(0, 0),
+                              color: AppColors.primary.withOpacity(0.3),
+                              spreadRadius: 2,
+                              blurRadius: 15,
+                            )
+                          ],
+                          color: AppColors.primary,
+                        ),
+                        child: Text(
+                          widget.controller.cartProducts.length.toString(),
+                          style: AppTextStyles.cartCounter,
+                        ),
+                      ),
                     ),
                   ),
                 ),

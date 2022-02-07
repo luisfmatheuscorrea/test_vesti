@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:test_zummedy/components/navigation_bar/navigation_bar.dart';
 import 'package:test_zummedy/core/app_colors.dart';
 import 'package:test_zummedy/core/app_text_styles.dart';
+import 'package:test_zummedy/modules/cart/controllers/cart/cart_controller.dart';
 import 'package:test_zummedy/modules/catalog/catalog_page.dart';
 
 class AppWidget extends StatefulWidget {
@@ -17,6 +19,8 @@ class _AppWidgetState extends State<AppWidget> {
 
   var scaffoldKey = GlobalKey<ScaffoldState>();
   final List<Widget> _telas = [];
+
+  final cartController = GetIt.I.get<CartController>();
 
   @override
   void initState() {
@@ -59,7 +63,9 @@ class _AppWidgetState extends State<AppWidget> {
           controller: _pageController,
           children: _telas,
         ),
-        bottomNavigationBar: NavigationBar(),
+        bottomNavigationBar: NavigationBar(
+          controller: cartController,
+        ),
       ),
     );
   }
@@ -68,6 +74,7 @@ class _AppWidgetState extends State<AppWidget> {
     _telas.addAll([
       CatalogPage(
         pageController: _pageController,
+        cartController: cartController,
       ),
     ]);
   }

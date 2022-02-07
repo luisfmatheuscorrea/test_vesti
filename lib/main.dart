@@ -3,8 +3,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_it/get_it.dart';
 import 'package:test_zummedy/core/app_colors.dart';
 import 'package:test_zummedy/helpers/http_override.dart';
+import 'package:test_zummedy/modules/cart/controllers/cart/cart_controller.dart';
 import 'package:test_zummedy/splash.dart';
 
 void startEnv() async {
@@ -14,6 +16,9 @@ void startEnv() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
+  GetIt getIt = GetIt.I;
+  getIt.registerSingleton<CartController>(CartController());
 }
 
 void main() async {

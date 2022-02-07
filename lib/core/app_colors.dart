@@ -25,9 +25,11 @@ class AppColors {
   ];
   static const Color white = Color(0xFFFFFFFF);
   static const Color grey = Color(0xFFF9F9F9);
+  static const Color greyDark = Color(0xFFD1D3D5);
   static const Color black = Color(0xFF2C2E33);
   static const Color borderBase = Color(0xFFF2F2F2);
   static const Color unselectedTitle = Color(0xFF828285);
   static const Color selectedTitle = Color(0xFF9C9C9F);
   static const Color blackText = Color(0xFF2C2E33);
+  static const Color greyDarkText = Color(0xFF626369);
 }
